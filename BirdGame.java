@@ -1,5 +1,4 @@
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.Graphics;
@@ -22,8 +21,9 @@ public class BirdGame extends JPanel {
     public final int START = 0;// 游戏开始
     public final int RUNNING = 1;// 游戏进行中
     public final int GAMEOVER = 2;// 游戏结束
-    public int speed = 2, score = 0, maxsc = 0;// 游戏结束
+    public int speed = 1, score = 0, maxsc = 0;// 游戏结束
     public String showsc, showmaxsc; // sc记录分数 showsc将sc转换为字符串打印在窗口上
+    public double nandu;  //通过修改线程休眠时间来掌握游戏运行速度，进而改变游戏难度
 
     public BirdGame() {
         try {
@@ -53,7 +53,6 @@ public class BirdGame extends JPanel {
             BufferedReader br = new BufferedReader(fr);
             maxsc = Integer.parseInt(br.readLine());
             br.close();
-            System.out.println(maxsc);
             // 默认游戏状态为待开始
             state = START;
             // 将图片赋给图片暂存区对象
@@ -101,6 +100,11 @@ public class BirdGame extends JPanel {
                     score = 0;
                     showsc = "";
                     showmaxsc = "";
+                    /**
+                     * 设置游戏的初始难度
+                     * 后面的计算公式中用到了sqrt 所以写成200*200的形式
+                     */
+                    nandu = 200 * 200; 
                     // 开始游戏时地面开始运动
                     ground.step();
                     // 开始游戏时鸟开始飞
@@ -121,6 +125,9 @@ public class BirdGame extends JPanel {
                     bird.y = bird.y + speed;
                     // 鸟开始飞
                     bird.fly();
+                    //难度不断增加
+                    nandu += 20;
+                    System.out.println(Math.sqrt(nandu));
                     // 开始计算得分
                     showsc = "得分：" + String.valueOf(score);
                     showmaxsc = "最高分：" + String.valueOf(maxsc);
@@ -180,7 +187,7 @@ public class BirdGame extends JPanel {
             repaint();
             // 线程休眠，控制游戏速度
             try {
-                Thread.sleep(1000 / 150);// 线程控制速度
+                Thread.sleep(1000 / (int)(Math.sqrt(nandu)));// 线程控制速度，难度增加休眠时间减少
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

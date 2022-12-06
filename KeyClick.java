@@ -20,14 +20,14 @@ public class KeyClick implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == 32) {
-            this.birdGame.speed = -2; //按下时修改小鸟的运动状态 向上
+            this.birdGame.speed = -1; //按下时修改小鸟的运动状态 向上
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == 32) {
-            this.birdGame.speed = 2;  //松开时恢复小鸟的运动状态 向下
+            this.birdGame.speed = 1;  //松开时恢复小鸟的运动状态 向下
         }
         /**
          * 当游戏结束时，按下回车重新回到开始界面
