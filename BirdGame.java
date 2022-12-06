@@ -71,23 +71,38 @@ public class BirdGame extends JPanel {
                     g = null; // 开始时将结束界面的图片设置为空，就不会显示
                     score = 0;
                     showsc = "";
+                    //开始游戏时地面开始运动
                     ground.step();
+                    //开始游戏时鸟开始飞
                     bird.fly();
+                    //初始化鸟的位置
                     bird.x = 120;
                     bird.y = 220;
+                    //初始化柱子的位置
                     column1.x1 = 450;
                     column1.x2 = 750;
                     break;
                 case RUNNING:
                     s = null; // 运行时，将开始图片隐藏
+                    //地面和竹子也开始运动
                     ground.step();
                     column1.run();
+                    //小鸟根据速度进行位移
                     bird.y = bird.y + speed;
+                    //鸟开始飞
                     bird.fly();
+                    //开始计算得分
                     showsc = "得分：" + String.valueOf(score);
+                    //根据y轴位置来判断鸟是否撞击到地面或者天空
                     if (bird.y < 0 || bird.y > 460) {
                         state = GAMEOVER;
                     }
+                    /**
+                     * 判断鸟是否撞击到了柱子
+                     * 先判断鸟是否遇上了柱子
+                     * 只有鸟和柱子的x轴处于同一区域时才有可能会撞到
+                     * 当柱子和鸟x轴方向上重叠时，只有鸟在柱子缝隙中才能存活
+                     */
                     if (column1.x1 < bird.x + 56 && bird.x - 78 < column1.x1) {
                         score++; //经过柱子不断加分
                         showsc = "得分：" + String.valueOf(score); //拼接得分
@@ -105,10 +120,13 @@ public class BirdGame extends JPanel {
                     break;
                 case GAMEOVER:
                     g = gimage; // 结束时，gameover图片显示
+                    //把鸟的图片设为空，从而在GAMEOVER时隐藏小鸟
                     bird.image = null;
                     break;
             }
+            //重新绘制
             repaint();
+            //线程休眠，控制游戏速度
             try {
                 Thread.sleep(1000 / 150);// 线程控制速度
             } catch (InterruptedException e) {
