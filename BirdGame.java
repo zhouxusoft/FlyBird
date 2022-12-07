@@ -127,7 +127,6 @@ public class BirdGame extends JPanel {
                     bird.fly();
                     //难度不断增加
                     nandu += 20;
-                    System.out.println(Math.sqrt(nandu));
                     // 开始计算得分
                     showsc = "得分：" + String.valueOf(score);
                     showmaxsc = "最高分：" + String.valueOf(maxsc);
@@ -179,15 +178,13 @@ public class BirdGame extends JPanel {
                         }
                     }
                     g = gimage; // 结束时，gameover图片显示
-                    // 把鸟的图片设为空，从而在GAMEOVER时隐藏小鸟
-                    bird.image = null;
                     break;
             }
             // 重新绘制
             repaint();
             // 线程休眠，控制游戏速度
             try {
-                Thread.sleep(1000 / (int)(Math.sqrt(nandu)));// 线程控制速度，难度增加休眠时间减少
+                Thread.sleep((int)(1000 / Math.sqrt(nandu)));// 线程控制速度，难度增加休眠时间减少
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
