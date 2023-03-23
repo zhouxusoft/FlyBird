@@ -1,4 +1,4 @@
-# fly-bird
+# FlyBird
 
 > 飞翔的傻鸟
 
